@@ -8,9 +8,14 @@ def main():
         response = requests.get(request_url)
         data = response.json()
 
-        # Check if the API call was successful
+        # Check if the API call was successful (this only checks if the request was made successfully, not if the game was found)
         if data.get('status') != 'success':
             print(f"Error fetching data for {game}: {data.get('errors', 'Unknown error')}")
+            continue
+
+        # Check if the game was found in the response
+        if not data.get('products'):
+            print(f"Game not found: {game}")
             continue
 
         # Print the fetched data
